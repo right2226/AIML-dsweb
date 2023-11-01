@@ -1,0 +1,673 @@
+// Aim: Implement Stack ADT using array.
+#include <stdio.h>
+#include <stdlib.h>
+
+#define SIZE 4
+int top = -1, stack[SIZE];
+void push();
+void pop();
+void peek();
+void display();
+
+int main()
+{
+int choice;
+while (1)
+{
+printf("\nPerform operations on the stack:");
+printf("\n1.Push the element\n2.Pop the element\n3.peek\n4.display\n5.End");
+printf("\n\nEnter the choice: ");
+scanf("%d", &choice);
+switch (choice)
+{
+case 1:
+push();
+break;
+case 2:
+pop();
+break;
+case 3:
+peek();
+break;
+case 4:
+display();
+break;
+case 5:
+exit(0);
+default:
+printf("\nInvalid choice!!");
+}
+
+}
+}
+void push()
+{
+int x;
+if (top == SIZE - 1)
+{
+printf("\nOverflow!!");
+}
+else
+{
+printf("\nEnter the element to be added onto the stack: ");
+scanf("%d", &x);
+top = top + 1;
+stack[top] = x;
+}
+}
+void pop()
+{
+if (top == -1)
+{
+printf("\nUnderflow!!");
+}
+else
+{
+printf("\nPopped element: %d", stack[top]);
+top = top - 1;
+}
+}
+void peek()
+{
+if (top == -1)
+{
+printf("\nUnderflow!!");
+}
+else
+
+{
+printf("\nPeek element: %d", stack[top]);
+}
+}
+
+void display()
+{
+if (top == -1)
+{
+printf("\nUnderflow!!");
+}
+else
+{
+printf("\nElements present in the stack: \n");
+for (int i = top; i >= 0; --i)
+printf("%d\n", stack[i]);
+}
+}
+
+// Aim = Evaluate postfix exp using stack adt
+#include <stdio.h>
+#include <ctype.h>
+#define MAX 100
+float st[MAX];
+int top=-1;
+void push(float st[], float val);
+float pop(float st[]);
+float evaluatePostfixExp(char exp[]);
+int main()
+{
+	float val;
+	char exp[100];
+	printf("\n Enter any postfix expression : ");
+	scanf("%s",exp);
+	val = evaluatePostfixExp(exp);
+	printf("\n Value of the postfix expression = %.2f", val);
+	return 0;
+}
+float evaluatePostfixExp(char exp[])
+{
+	int i=0;
+	float op1, op2, value;
+	while(exp[i] != '\0')
+	{
+		if(isdigit(exp[i]))
+			push(st, (float)(exp[i]-'0'));
+
+		else
+		{
+			op2 = pop(st);
+			op1 = pop(st);
+			switch(exp[i])
+			{
+				case '+':
+					value = op1 + op2;
+					break;
+				case '-':
+					value = op1 - op2;
+					break;
+				case '/':
+					value = op1 / op2;	
+					break;
+				case '*':
+					value = op1 * op2;		
+					break;
+				case '%':
+					value = (int)op1 % (int)op2;
+					break;
+			}
+			push(st, value);
+		}
+		i++;
+	}
+	return(pop(st));
+}
+void push(float st[], float val)
+{
+	if(top==MAX-1)
+		printf("\n STACK OVERFLOW");
+	else
+	{
+		top++;
+		st[top]=val;
+	}
+}
+float pop(float st[])
+{
+	float val=-1;
+	if(top==-1)
+		printf("\n STACK UNDERFLOW");
+	else
+	{
+		val=st[top];
+		top--;
+	}
+	return val;
+}
+
+// Aim=  Implement Linear Queue ADT using array.
+#include <stdio.h>
+#define MAX 3 
+int queue[MAX];
+int front = -1, rear = -1;
+void insert(void);
+int delete_element(void);
+int peek(void);
+void display(void);
+int main()
+{
+	int option, val;
+	do
+	{
+		printf("\n\n ***** MAIN MENU *****");
+		printf("\n 1. Insert an element");
+		printf("\n 2. Delete an element");
+		printf("\n 3. Peek");
+		printf("\n 4. Display the queue");
+		printf("\n 5. EXIT");
+		printf("\n Enter your option : ");
+		scanf("%d", &option);
+		switch(option)
+
+		{
+			case 1:
+			insert();
+			break;
+			case 2:
+			val = delete_element();
+			if (val != -1)
+			printf("\n The number deleted is : %d", val);
+			break;
+			case 3:
+			val = peek();
+			if (val != -1)
+			printf("\n The first value in queue is : %d", val);
+			break;
+			case 4:
+			display();
+			break;
+		}
+	}while(option != 5);
+	return 0;
+}
+void insert()
+{
+	int num;
+	printf("\n Enter the number to be inserted in the queue : ");
+	scanf("%d", &num);
+	if(rear == MAX-1)
+	{
+		printf("\n OVERFLOW");
+		return;
+	}	
+	else if(front == -1 && rear == -1)
+		front = rear = 0;
+
+	else
+		rear++;
+	queue[rear] = num;
+	
+}
+int delete_element()
+{
+	int val;
+	if(front == -1 || front>rear)
+	{
+		printf("\n UNDERFLOW");
+		return -1;
+	}
+	else if(front==rear)
+	{
+		val=queue[front];
+		front=rear=-1;
+		return val;
+
+	}
+	else
+	{
+		val = queue[front];
+		front++;
+		
+		return val;
+	}
+}
+int peek()
+{
+	if(front==-1 || front>rear)
+	{
+		printf("\n QUEUE IS EMPTY");
+		return -1;
+	}
+	else
+	{
+		return queue[front];
+	}
+}
+void display()
+{
+	int i;
+	printf("\n");
+	if(front == -1 || front > rear)
+		printf("\n QUEUE IS EMPTY");
+	else
+	{
+		for(i = front;i <= rear;i++)
+			printf("\t %d", queue[i]);
+	}
+}
+
+// Aim = Implement Circular Queue ADT using array.
+#include <stdio.h>  
+  
+# define max 6  
+int queue[max];  
+int front=-1;  
+int rear=-1;  
+
+void enqueue(int element)  
+{  
+    if(front==-1 && rear==-1)  
+    {  
+        front=0;  
+        rear=0;  
+        queue[rear]=element;  
+    }  
+    else if((rear+1)%max==front)    
+    {  
+        printf("Queue is overflow..");  
+    }  
+    else  
+    {  
+        rear=(rear+1)%max;      
+        queue[rear]=element;     
+    }  
+}  
+  
+
+int dequeue()  
+{  
+    if((front==-1) && (rear==-1))   
+    {  
+        printf("\nQueue is underflow..");  
+    }  
+ else if(front==rear)  
+{  
+   printf("\nThe dequeued element is %d", queue[front]);  
+   front=-1;  
+   rear=-1;  
+}   
+else  
+{  
+    printf("\nThe dequeued element is %d", queue[front]);  
+   front=(front+1)%max;  
+}  
+}  
+  
+void display()  
+{  
+    int i=front;  
+    if(front==-1 && rear==-1)  
+    {  
+        printf("\n Queue is empty..");  
+    }  
+    else  
+    {  
+        printf("\nElements in a Queue are :");  
+        if(front < rear){
+            while(i<=rear)  
+            {  
+                printf("%d,", queue[i]);  
+                i=i+1;  
+            }
+        }
+        else{
+            while(i != rear)  
+            {  
+                printf("%d,", queue[i]);  
+                i=(i+1)%max;  
+            }
+            printf("%d,", queue[i]);
+        }
+
+    }  
+}  
+int main()  
+{  
+    int choice=1,x;   
+    while(choice<4 && choice!=0)   
+    {  
+    printf("\n Press 1: Insert an element");  
+    printf("\nPress 2: Delete an element");  
+    printf("\nPress 3: Display the element");  
+    printf("\nEnter your choice");  
+    scanf("%d", &choice);  
+      
+    switch(choice)  
+    {  
+          
+        case 1:  
+      
+        printf("Enter the element which is to be inserted");  
+        scanf("%d", &x);  
+        enqueue(x);  
+        break;  
+        case 2:  
+        dequeue();  
+        break;  
+        case 3:  
+        display();  
+  
+    }}  
+    return 0;  
+}  
+
+// Aim = Implement Singly Linked List ADT
+#include<stdio.h>
+#include<stdlib.h>
+struct node 
+{
+	int data;
+	struct node *next; 
+};
+struct node *head;
+
+void beginsert (); 
+void lastinsert ();
+void randominsert();
+void begin_delete();
+void last_delete();
+void random_delete();
+void display();
+void search();
+void main ()
+{
+	int choice =0,value;
+	while(choice != 9) 
+	{
+		printf("\n\n*********Main Menu*********\n");
+		printf("\nChoose one option from the following list ...\n");
+		printf("\n===============================================\n");
+		printf("\n1.Insert in begining\n2.Insert at last\n3.Insert at any random location\n4.Delete from Beginning\n5.Delete from last\n6.Delete node after specified location\n7.Show\n8.Exit\n");
+		printf("\nEnter your choice?\n");		
+		scanf("\n%d",&choice);
+		switch(choice)
+		{
+			case 1:
+			beginsert();	
+			break;
+			case 2:
+			lastinsert();		
+			break;
+			case 3:
+			randominsert();		
+			break;
+			case 4:
+			begin_delete();		
+			break;
+			case 5:
+			last_delete();		
+			break;
+			case 6:
+			random_delete();		
+			break;
+			case 7:
+			display();		
+			break;
+			case 8:
+			exit(0);
+			break;
+			default:
+			printf("Please enter valid choice..");
+		}
+	}
+}
+void beginsert()
+{
+	struct node *newNode;
+	int value;
+   	newNode=(struct node *) malloc(sizeof(struct node *));
+	printf("Enter a value to be inserted:");
+	scanf("%d",&value);
+	newNode->data = value;
+	if(head == NULL)
+	{
+	      newNode->next = NULL;
+	      head = newNode;
+	}
+	else
+	{
+	      newNode->next = head;
+	      head = newNode;
+	}
+   	printf("\nOne node inserted!!!\n");
+	
+}
+void lastinsert()
+{
+	struct node *newNode;
+	int value;
+   	newNode = (struct node *) malloc(sizeof(struct node *));
+	printf("Enter a value to be inserted:");
+	scanf("%d",&value);	
+	newNode->data = value;
+	newNode->next = NULL;
+	if(head == NULL)
+		head = newNode;
+	else
+	{
+	      struct node *temp = head;
+	      while(temp->next != NULL)
+			temp = temp->next;
+	      temp->next = newNode;
+	}
+	printf("\nOne node inserted!!!\n");
+}
+void randominsert()
+{
+	int i,loc,value; 
+	struct node *newnode, *temp;
+	newnode = (struct node *) malloc (sizeof(struct node));
+	
+		printf("\nEnter element value");
+		scanf("%d",&value);
+		newnode->data = value;
+		printf("\nEnter the location after which you want to insert ");
+		scanf("\n%d",&loc);
+		temp=head;
+		for(i=0;i<loc;i++)
+		{
+			temp = temp->next;
+			if(temp == NULL)
+			{
+				printf("\ncan't insert\n");
+				return;
+			}
+		
+		}
+		newnode ->next = temp ->next; 
+		temp ->next = newnode; 
+		printf("\nNode inserted");
+	
+}
+void begin_delete()
+{
+	struct node *temp;
+	if(head == NULL)
+	{
+		printf("\nList is empty\n");
+	}
+	else 
+	{
+		temp = head;
+		head = temp->next;
+		free(temp);
+		printf("\nNode deleted from the begining ...\n");
+	}
+}
+void last_delete()
+{
+	struct node *temp1,*temp2;
+	if(head == NULL)
+	{
+		printf("\nlist is empty");
+	}
+	else if(head -> next == NULL)
+	{
+		head = NULL;
+		free(head);
+		printf("\nOnly node of the list deleted ...\n");
+	}
+		
+	else
+	{
+		temp1 = head; 
+		while(temp1->next != NULL)
+		{
+			temp2 = temp1;
+			temp1 = temp1 ->next;
+		}
+		temp2->next = NULL;
+		free(temp1);
+		printf("\nDeleted Node from the last ...\n");
+	}	
+}
+void random_delete()
+{
+	struct node *temp1,*temp2;
+	int loc,i;	
+	printf("\n Enter the location of the node after which you want to perform deletion \n");
+	scanf("%d",&loc);
+	temp1=head;
+	for(i=0;i<loc;i++)
+	{
+		temp2 = temp1;		
+		temp1 = temp1->next;
+			
+		if(temp1 == NULL)
+		{
+			printf("\nCan't delete");
+			return;
+		}
+	}
+	temp2 ->next = temp1 ->next;
+	free(temp1);
+	printf("\nDeleted node %d ",loc+1);
+}
+void display()
+{
+	struct node *temp;
+	temp = head; 
+	if(temp == NULL)
+	{
+		printf("Nothing to print");
+	}
+	else
+	{
+		printf("\nprinting values . . . . .\n"); 
+		while (temp!=NULL)
+		{
+			printf("\n%d",temp->data);
+			temp = temp -> next;
+		}
+	}
+}	
+
+// Aim =  Implement Stack  ADT using Linked List.
+#include<stdio.h>
+#include<stdlib.h>
+
+struct Node
+{
+   int data;
+   struct Node *next;
+}*top = NULL;
+
+void push(int);
+void pop();
+void display();
+
+void main()
+{
+   int choice, value;
+   printf("\n:: Stack using Linked List ::\n");
+   while(1){
+      printf("\n****** MENU ******\n");
+      printf("1. Push\n2. Pop\n3. Display\n4. Exit\n");
+      printf("Enter your choice: ");
+      scanf("%d",&choice);
+      switch(choice){
+	 case 1: printf("Enter the value to be insert: ");
+		 scanf("%d", &value);
+		 push(value);
+		 break;
+	 case 2: pop(); break;
+	 case 3: display(); break;
+	 case 4: exit(0);
+	 default: printf("\nWrong selection!!! Please try again!!!\n");
+      }
+   }
+}
+void push(int value)
+{
+   struct Node *newNode;
+   newNode = (struct Node*)malloc(sizeof(struct Node));
+   newNode->data = value;
+   if(top == NULL)
+      newNode->next = NULL;
+   else
+      newNode->next = top;
+   top = newNode;
+   printf("\nInsertion is Success!!!\n");
+}
+void pop()
+{
+   if(top == NULL)
+      printf("\nStack is Empty!!!\n");
+   else{
+      struct Node *temp = top;
+      printf("\nDeleted element: %d", temp->data);
+      top = temp->next;
+      free(temp);
+   }
+}
+void display()
+{
+   if(top == NULL)
+      printf("\nStack is Empty!!!\n");
+   else{
+      struct Node *temp = top;
+      while(temp->next != NULL){
+	 printf("%d--->",temp->data);
+	 temp = temp -> next;
+      }
+      printf("%d--->NULL",temp->data);
+   }
+}
